@@ -1,43 +1,26 @@
-import React, { Component, Fragment } from 'react';
-// import GlobalStyle from './styles/global';
-// import Home from './pages/Home';
-import { firebase } from './services/firebase';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import GlobalStyle from './styles/global';
+import React from "react";
+import { ToastContainer } from 'react-toastify'
+import { PersistGate } from 'redux-persist/integration/react'
+import { Provider } from 'react-redux'
+import { Router } from "react-router-dom";
 
-export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      user: {},
-    };
-  }
+import './config/ReactotronConfig'
 
-  componentDidMount() {
-    this.authListener();
-  }
+import Routes from "./routes";
+import history from "./services/history";
+import 'react-toastify/dist/ReactToastify.css';
 
-  authListener = () => {
-    firebase.auth().onAuthStateChanged((user) => {
-      console.log(user);
-      if (user) {
-        this.setState({ user });
-        localStorage.setItem('user', user.uid);
-      } else {
-        this.setState({ user: null });
-        localStorage.removeItem('user');
-      }
-    });
-  };
+import { store, persistor } from './store'
 
-  render() {
-    console.log('teste user => ', this.state.user);
-    return (
-      <Fragment>
-        <GlobalStyle />
-        {this.state.user ? <Home /> : <Login />}
-      </Fragment>
-    );
-  }
+export default function App() {
+  return (
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <Router history={history}>
+          <Routes />
+          <ToastContainer autoClose={10000} />
+        </Router>
+      </PersistGate>
+    </Provider >
+  );
 }

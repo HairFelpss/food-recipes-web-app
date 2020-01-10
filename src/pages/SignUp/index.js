@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   paper: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
+    alignItems: "center"
   },
   title: {
     color: theme.palette.primary
@@ -25,18 +25,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.secondary.main
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
-  },
-  input: {
-    width: '100%',
-    height: 56,
-    fontSize: '2vh',
-    fontWeight: 500,
-    border: 'none',
-    outline: 'none',
-    textAlign: 'center',
-    color: theme.palette.text.primary,
-    backgroundColor: 'transparent',
+    width: "100%" // Fix IE 11 issue.
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
@@ -77,17 +66,8 @@ const Login = () => {
             Welcome to Native Code
           </Typography>
           <Form schema={schema} className={classes.form} onSubmit={handleSubmit}>
-            <Input
-              className={classes.input}
-              name="email"
-              placeholder="Digite seu e-mail"
-            />
-            <Input
-              className={classes.input}
-              name="password"
-              type="password"
-              placeholder="Digite sua senha"
-            />
+            <Input name="email" placeholder="Digite seu e-mail" />
+            <Input name="password" type="password" placeholder="Digite sua senha" />
             <Button
               type="submit"
               fullWidth
@@ -100,7 +80,7 @@ const Login = () => {
           </Form>
         </div>
       </Container>
-    </Grid >
+    </Grid>
   );
 };
 
