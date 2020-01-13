@@ -1,11 +1,12 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { Input } from '@rocketseat/unform';
 import WrapperComponent from '../../Components'
 import TypeCard from '../../Components/TagCard'
+import api from '../../services/api';
+import Fab from '../../Components/Fab'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -13,6 +14,11 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     paddingBottom: '3vh',
+  },
+  fab: {
+    position: 'absolute',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
   },
   input: {
     width: '50vw',
@@ -28,12 +34,37 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Tag = () => {
-  const dispatch = useDispatch()
   const classes = useStyles();
-  const loading = useSelector(state => state.auth.loading)
+  //const loading = useSelector(state => state.auth.loading)
+  const [file, setFile] = useState('')
+  const [tags, setTags] = useState([])
 
-  const handleSubmit = (data) => {
-    console.log(data)
+  const handleChange = (e) => {
+    setFile(e.target.files[0])
+  }
+
+  useEffect(() => { loadTags() }, []);
+
+  const loadTags = async () => {
+    const tagsList = await api.get('/types')
+    setTags(tagsList.data)
+  }
+
+  const savePhoto = async () => {
+    const photo = new FormData()
+    photo.append('file', file)
+    const tagPhoto = await api.post("/files", photo)
+    const { id } = tagPhoto.data
+    return id
+  }
+
+  const handleSubmit = async (data) => {
+    const photo = await savePhoto()
+    data.photo_id = photo
+    await api.post('/types', data)
+    try {
+    } catch (err) {
+    }
   }
 
   return (
@@ -60,18 +91,20 @@ const Tag = () => {
               variant='contained'
               color='primary'
               className={classes.submit}
-            >Buscar
+            >
+              Buscar
             </Button>
           </Grid>
           <Grid container justify="center" spacing={6}>
-            {[0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11].map(value => (
-              <Grid key={value} item>
-                <TypeCard />
+            {tags && tags.map(tag => (
+              <Grid key={tag.id} item>
+                <TypeCard props={tag} />
               </Grid>
             ))}
           </Grid>
         </Grid>
       </Grid>
+      <Fab destiny='Deseja criar uma nova Tag?' handleChange={handleChange} handleSubmit={handleSubmit} />
     </WrapperComponent>
   )
 };

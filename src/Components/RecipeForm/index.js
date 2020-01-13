@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import { Form, Input, Select, FileInput } from '@rocketseat/unform';
+import { Form, Input, Select } from '@rocketseat/unform';
 import drawerBgImage from "../../Images/bg.jpg";
 
 const useStyles = makeStyles(theme => ({
@@ -51,9 +51,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const options = [
-  { id: 'react', title: 'ReactJS' },
-  { id: 'node', title: 'NodeJS' },
-  { id: 'rn', title: 'React Native' },
+  { id: 1, title: 'ReactJS' },
+  { id: 2, title: 'NodeJS' },
+  { id: 6, title: 'React Native' },
 ];
 
 const difficulty = [
@@ -62,17 +62,26 @@ const difficulty = [
   { id: 2, title: 'Difícil', },
 ]
 
-const RecipeForm = ({ handleSubmit, loading, dispatch, inputs }) => {
+const RecipeForm = ({ handleSubmit, loading, inputs, handleChange }) => {
   const classes = useStyles()
 
   return (
     <Form className={classes.paper} onSubmit={handleSubmit}>
-      {inputs.map(input => <Input multiline className={classes.input} name={input.name} placeholder={input.placeholder} autoComplete='off' />)}
-      <FileInput
+      {inputs.map(input =>
+        <Input
+          multiline
+          className={classes.input}
+          name={input.name}
+          key={input.id}
+          placeholder={input.placeholder}
+          autoComplete='off'
+        />)}
+      <input
+        type='file'
         name='photo'
-        type='password'
         className={classes.fileBtn}
-        placeholder='Troque apenas por uma foto melhor!'
+        onChange={handleChange}
+        accept='image/*'
       />
       <Select className={classes.selectBtn} name='difficulty' options={difficulty} />
       <Select className={classes.selectBtn} name='type' options={options} />
