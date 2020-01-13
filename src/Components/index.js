@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 
 import Drawer from "./Drawer";
 import TopBar from "./TopBar";
-import api from "../services/api";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,7 +26,6 @@ export default function WrapperComponent({ children }) {
   const theme = useTheme();
   //const [recipes, setRecipes] = useState([]);
   const [open, setOpen] = useState(false);
-  console.log(api.get('roles'))
 
   const toggleDrawer = state => setOpen(state || !open);
 
