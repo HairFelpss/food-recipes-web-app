@@ -1,10 +1,12 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import { Input } from '@rocketseat/unform';
 import WrapperComponent from '../../Components'
 import Recipes from '../../Components/Recipes'
+import Fab from '../../Components/Fab'
+
+import api from '../../services/api'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,13 +29,16 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ListRecipes = () => {
-  const dispatch = useDispatch()
   const classes = useStyles();
-  const loading = useSelector(state => state.auth.loading)
+  //const loading = useSelector(state => state.auth.loading)
+  const [recipes, setRecipes] = useState([])
 
-  const handleSubmit = (data) => {
-    console.log(data)
+  const loadRecipes = async () => {
+    const recipesList = await api.get('/recipes')
+    setRecipes(recipesList.data)
   }
+
+  useEffect(() => { loadRecipes() }, []);
 
   return (
     <WrapperComponent>
@@ -50,20 +55,23 @@ const ListRecipes = () => {
             <Input
               className={classes.input}
               name='name'
-              placeholder='Digite o tipo de receita desejado...'
+              placeholder='Digite o nome da receita desejada...'
               color="primary"
               autoComplete='off'
             />
           </Grid>
           <Grid container justify="center" spacing={3}>
-            {[0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11].map(value => (
-              <Grid key={value} item>
-                <Recipes />
+            {recipes.map(recipe => (
+              <Grid key={recipe.id} item>
+                <Recipes
+                  props={recipe}
+                />
               </Grid>
             ))}
           </Grid>
         </Grid>
       </Grid>
+      <Fab />
     </WrapperComponent>
   )
 };
