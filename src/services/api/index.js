@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'http://server.nativecode.com.br',
+  baseURL: 'https://server.nativecode.com.br',
 })
 
 export default api;
