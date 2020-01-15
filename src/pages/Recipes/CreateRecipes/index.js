@@ -16,11 +16,23 @@ const addRecipeInputs = [
 const CreateRecipes = () => {
   const dispatch = useDispatch()
   const [file, setFile] = useState('')
+  const [difficulty, setDifficulty] = useState('')
+  const [tags, setTags] = useState([])
   const loading = useSelector(state => state.auth.loading)
 
   const handleChange = (e) => {
     setFile(e.target.files[0])
   }
+
+  const handleSingleSelectChange = optionSelected => {
+    const difficulty = optionSelected.label
+    setDifficulty(difficulty)
+  }
+  const handleMultiSelectChange = optionsSelected => {
+    const tags = optionsSelected.map(tag => tag.id)
+    setTags(tags)
+  }
+
   const savePhoto = async () => {
     const photo = new FormData()
     photo.append('file', file)
@@ -31,11 +43,22 @@ const CreateRecipes = () => {
 
   const handleSubmit = async (data) => {
     try {
-      const photo = await savePhoto()
-      data.photo_id = photo
-      await api.post('/recipes', data)
-
+      data.difficulty = difficulty
+      data.types = tags
+      if (
+        data.name &&
+        data.introduction &&
+        data.steps &&
+        data.ingredients
+      ) {
+        const photo = await savePhoto()
+        data.photo_id = photo
+        const response = await api.post('/recipes', data)
+        console.log(response.data)
+      }
+      //notification: something is wrong with the recipe data
     } catch (err) {
+      console.log(err)
     }
   }
 
@@ -47,6 +70,8 @@ const CreateRecipes = () => {
         dispatch={dispatch}
         inputs={addRecipeInputs}
         handleChange={handleChange}
+        handleSingleSelectChange={handleSingleSelectChange}
+        handleMultiSelectChange={handleMultiSelectChange}
       />
     </WrapperComponent>
   )

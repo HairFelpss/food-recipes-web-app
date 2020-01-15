@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
 import WrapperComponent from '../../../Components'
@@ -15,44 +15,93 @@ const editRecipeInputs = [
 ]
 
 const EditRecipes = () => {
-  const location = useLocation()
   const dispatch = useDispatch()
+  const location = useLocation()
+  const [recipes, setRecipes] = useState([])
   const [file, setFile] = useState('')
+  const [difficulty, setDifficulty] = useState(null)
+  const [tags, setTags] = useState(null)
   const loading = useSelector(state => state.auth.loading)
+
+  const loadRecipes = async () => {
+    const { id } = location.state
+    const recipesList = await api.get(`/recipes/${id}`)
+    setRecipes(recipesList.data)
+  }
+
+  useEffect(() => { loadRecipes() }, []);
 
   const handleChange = (e) => {
     setFile(e.target.files[0])
   }
 
+  const handleSingleSelectChange = optionSelected => {
+    const difficulty = optionSelected.label
+    setDifficulty(difficulty)
+  }
+
+  const handleMultiSelectChange = optionsSelected => {
+    const tags = optionsSelected.map(tag => tag.id)
+    setTags(tags)
+  }
+
   const savePhoto = async () => {
     const photo = new FormData()
     photo.append('file', file)
-    const recipePhoto = await api.post("/files", photo)
-    const { id } = recipePhoto.data
-    return id
+
+    if (photo.get('file')) {
+      const response = await api.post("/files", photo)
+      const { id } = response.data
+      return id
+    }
+
+    return null
+  }
+
+  const createDataToPush = async (data) => {
+    if (difficulty) {
+      data.difficulty = difficulty
+    }
+
+    if (tags) {
+      data.types = tags
+    }
+
+    const photo = await savePhoto()
+
+    if (photo) {
+      data.photo_id = photo
+    }
+    return data
   }
 
   const handleSubmit = async (data) => {
     try {
       const { id } = location.state
-      if (file) {
-        const photo = await savePhoto()
-        data.photo_id = photo
+      const filteredData = await createDataToPush(data)
+      if (id) {
+        const response = await api.put(`/recipes/${id}`, filteredData)
+        console.log(response.data)
       }
-      await api.put(`/recipes/${id}`, data)
-
+      //notification: something is wrong with the recipe data
     } catch (err) {
+      console.log(err)
     }
   }
 
   return (
     <WrapperComponent>
       <RecipeForm
+        recipesToEdit={recipes}
         handleSubmit={handleSubmit}
         loading={loading}
         dispatch={dispatch}
         inputs={editRecipeInputs}
         handleChange={handleChange}
+        handleSingleSelectChange={handleSingleSelectChange}
+        handleMultiSelectChange={handleMultiSelectChange}
+        singleSelect={setDifficulty}
+        multiSelect={setTags}
       />
     </WrapperComponent>
   )
