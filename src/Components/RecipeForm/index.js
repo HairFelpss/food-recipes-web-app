@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import { Form, Input, Select } from '@rocketseat/unform';
+import { Form, Input } from '@rocketseat/unform';
 import drawerBgImage from "../../Images/bg.jpg";
+import Select from '../Select/index'
+import api from '../../services/api';
+
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -41,29 +44,86 @@ const useStyles = makeStyles(theme => ({
     fontSize: '1.5vh',
     margin: '1vh',
   },
-  selectBtn: {
-    backgroundImage: "url(" + drawerBgImage + ")",
-    width: '10vw',
-    marginTop: '0.5vh',
-    padding: '0.5vh',
-    opacity: 0.7,
-  },
 }));
 
-const options = [
-  { id: 1, title: 'ReactJS' },
-  { id: 2, title: 'NodeJS' },
-  { id: 6, title: 'React Native' },
-];
-
 const difficulty = [
-  { id: 0, title: 'Fácil', },
-  { id: 1, title: 'Médio', },
-  { id: 2, title: 'Difícil', },
+  { value: 'Fácil', label: 'Fácil', },
+  { value: 'Médio', label: 'Médio', },
+  { value: 'Difícil', label: 'Difícil', },
 ]
 
-const RecipeForm = ({ handleSubmit, loading, inputs, handleChange }) => {
+const RecipeForm = ({
+  handleSubmit,
+  loading,
+  inputs,
+  handleChange,
+  handleSingleSelectChange,
+  handleMultiSelectChange,
+  recipesToEdit,
+}) => {
   const classes = useStyles()
+  const [options, setOptions] = useState([])
+
+  const loadOptions = async () => {
+    const response = await api.get('/types')
+    const filteredResponse = response.data.map(option => {
+      option.label = option.name
+      option.value = option.name
+      return option
+    })
+    setOptions(filteredResponse)
+  }
+
+  useEffect(() => {
+    loadOptions()
+  }, [])
+
+  if (recipesToEdit) {
+    const { id, pictures, difficulty: currentDifficulty, types, ...data } = recipesToEdit
+
+    return (
+      <Form className={classes.paper} initialData={data} onSubmit={handleSubmit}>
+        {Object.entries(data).map((input, index) =>
+          <Input
+            multiline
+            className={classes.input}
+            name={input[0]}
+            key={index}
+            autoComplete='off'
+          />
+        )}
+        <input
+          type='file'
+          name='photo'
+          className={classes.fileBtn}
+          onChange={handleChange}
+          accept='image/*'
+        />
+        <Select
+          name='difficulty'
+          single={true}
+          options={difficulty}
+          handleOnChange={handleSingleSelectChange}
+        />
+        <Select
+          name='types'
+          single={false}
+          options={options}
+          handleOnChange={handleMultiSelectChange}
+        />
+
+        <Button
+          type='submit'
+          fullWidth
+          variant='contained'
+          color='primary'
+          className={classes.submit}
+        >
+          {loading ? 'Carregando...' : 'Salvar'}
+        </Button>
+      </Form>
+    )
+  }
 
   return (
     <Form className={classes.paper} onSubmit={handleSubmit}>
@@ -75,7 +135,8 @@ const RecipeForm = ({ handleSubmit, loading, inputs, handleChange }) => {
           key={input.id}
           placeholder={input.placeholder}
           autoComplete='off'
-        />)}
+        />
+      )}
       <input
         type='file'
         name='photo'
@@ -83,8 +144,9 @@ const RecipeForm = ({ handleSubmit, loading, inputs, handleChange }) => {
         onChange={handleChange}
         accept='image/*'
       />
-      <Select className={classes.selectBtn} name='difficulty' options={difficulty} />
-      <Select className={classes.selectBtn} name='type' options={options} />
+      <Select single={true} options={difficulty} handleInputChange={handleSingleSelectChange} />
+      <Select single={false} options={options} handleInputChange={handleMultiSelectChange} />
+
       <Button
         type='submit'
         fullWidth
