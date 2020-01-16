@@ -17,19 +17,21 @@ const editRecipeInputs = [
 const EditRecipes = () => {
   const dispatch = useDispatch()
   const location = useLocation()
+  const [id] = useState(location.state.id)
   const [recipes, setRecipes] = useState([])
   const [file, setFile] = useState('')
   const [difficulty, setDifficulty] = useState(null)
   const [tags, setTags] = useState(null)
   const loading = useSelector(state => state.auth.loading)
 
-  const loadRecipes = async () => {
-    const { id } = location.state
-    const recipesList = await api.get(`/recipes/${id}`)
-    setRecipes(recipesList.data)
-  }
+  useEffect(() => {
+    const loadRecipes = async () => {
+      const recipesList = await api.get(`/recipes/${id}`)
+      setRecipes(recipesList.data)
+    }
 
-  useEffect(() => { loadRecipes() }, []);
+    loadRecipes()
+  }, [id]);
 
   const handleChange = (e) => {
     setFile(e.target.files[0])
