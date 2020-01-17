@@ -68,7 +68,6 @@ const EditRecipes = () => {
     if (tags) {
       data.types = tags
     }
-
     const photo = await savePhoto()
 
     if (photo) {

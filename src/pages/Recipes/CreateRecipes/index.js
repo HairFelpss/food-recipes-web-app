@@ -16,8 +16,8 @@ const addRecipeInputs = [
 const CreateRecipes = () => {
   const dispatch = useDispatch()
   const [file, setFile] = useState('')
-  const [difficulty, setDifficulty] = useState('')
-  const [tags, setTags] = useState([])
+  const [difficulty, setDifficulty] = useState(null)
+  const [tags, setTags] = useState(null)
   const loading = useSelector(state => state.auth.loading)
 
   const handleChange = (e) => {
@@ -28,6 +28,7 @@ const CreateRecipes = () => {
     const difficulty = optionSelected.label
     setDifficulty(difficulty)
   }
+
   const handleMultiSelectChange = optionsSelected => {
     const tags = optionsSelected.map(tag => tag.id)
     setTags(tags)
@@ -49,7 +50,8 @@ const CreateRecipes = () => {
         data.name &&
         data.introduction &&
         data.steps &&
-        data.ingredients
+        data.ingredients &&
+        data.types
       ) {
         const photo = await savePhoto()
         data.photo_id = photo
@@ -72,6 +74,8 @@ const CreateRecipes = () => {
         handleChange={handleChange}
         handleSingleSelectChange={handleSingleSelectChange}
         handleMultiSelectChange={handleMultiSelectChange}
+        singleSelect={setDifficulty}
+        multiSelect={setTags}
       />
     </WrapperComponent>
   )

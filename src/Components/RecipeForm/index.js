@@ -144,8 +144,8 @@ const RecipeForm = ({
         onChange={handleChange}
         accept='image/*'
       />
-      <Select single={true} options={difficulty} handleInputChange={handleSingleSelectChange} />
-      <Select single={false} options={options} handleInputChange={handleMultiSelectChange} />
+      <Select single={true} name='difficulty' options={difficulty} handleOnChange={handleSingleSelectChange} />
+      <Select single={false} name='types' options={options} handleOnChange={handleMultiSelectChange} />
 
       <Button
         type='submit'

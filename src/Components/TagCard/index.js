@@ -5,7 +5,6 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
@@ -91,13 +90,13 @@ export default function TagCard({ props }) {
         </CardActionArea>
         <CardActions className={classes.btn}>
           <Button size="small" color="primary" onClick={() => handleOpen('edit')}>
-            Edit
-            </Button>
-          <Typography variant="button" display="block" gutterBottom className={classes.title}>
+            EDITAR
+          </Button>
+          <Button size="small" color="primary" className={classes.title}>
             {props.name}
-          </Typography>
+          </Button>
           <Button size="small" className={classes.danger} onClick={() => handleOpen('delete')}>
-            DELETE
+            EXCLUIR
         </Button>
         </CardActions>
       </Card>
