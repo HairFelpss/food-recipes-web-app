@@ -7,16 +7,15 @@ import Avatar from '@material-ui/core/Avatar';
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
+import IconButton from "@material-ui/core/IconButton";
+import DashboardIcon from '@material-ui/icons/Dashboard';
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import IconButton from "@material-ui/core/IconButton";
-import EditIcon from '@material-ui/icons/Edit';
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import SettingsIcon from '@material-ui/icons/Settings';
+import HomeIcon from '@material-ui/icons/Home';
 import drawerBgImage from "../../Images/bg.jpg";
 
 const drawerWidth = 240;
@@ -70,10 +69,8 @@ export default function MiniDrawer({ toggleDrawer, open }) {
   const classes = useStyles();
 
   const firstListDrawerOptions = [
-    { id: 0, route: '/Dashboard', title: 'Felipe Alves', initial: <Avatar className={classes.transparentBg} src="/static/images/avatar/3.jpg" /> },
-    { id: 1, route: '/profile', title: 'My Profile', initial: <Avatar className={classes.transparentBg}><AccountCircleIcon /></Avatar> },
-    { id: 2, route: '/profile', title: 'Edit Profile', initial: <Avatar className={classes.transparentBg}><EditIcon /></Avatar> },
-    { id: 3, route: '/settings', title: 'Settings', initial: <Avatar className={classes.transparentBg}><SettingsIcon /></Avatar> },
+    { id: 0, route: '/home', title: 'home', initial: <Avatar className={classes.transparentBg}><HomeIcon /></Avatar> },
+    { id: 1, route: '/Dashboard', title: 'Dashboard', initial: <Avatar className={classes.transparentBg}> <DashboardIcon /> </Avatar> },
   ]
 
   const secondListDrawerOptions = [

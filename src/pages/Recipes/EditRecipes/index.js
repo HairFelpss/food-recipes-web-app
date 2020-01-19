@@ -3,6 +3,7 @@ import { useLocation } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
 import WrapperComponent from '../../../Components'
 import RecipeForm from '../../../Components/RecipeForm'
+import history from '../../../services/history'
 import api from '../../../services/api'
 
 const editRecipeInputs = [
@@ -82,7 +83,9 @@ const EditRecipes = () => {
       const filteredData = await createDataToPush(data)
       if (id) {
         const response = await api.put(`/recipes/${id}`, filteredData)
-        console.log(response.data)
+        if (response.data) {
+          history.push('/recipes')
+        }
       }
       //notification: something is wrong with the recipe data
     } catch (err) {

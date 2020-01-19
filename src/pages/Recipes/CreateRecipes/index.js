@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import WrapperComponent from '../../../Components'
 import RecipeForm from '../../../Components/RecipeForm'
+import history from '../../../services/history'
 import api from '../../../services/api';
 
 const addRecipeInputs = [
@@ -56,7 +57,10 @@ const CreateRecipes = () => {
         const photo = await savePhoto()
         data.photo_id = photo
         const response = await api.post('/recipes', data)
-        console.log(response.data)
+        if (response.data) {
+          //toast
+          history.push('/recipes')
+        }
       }
       //notification: something is wrong with the recipe data
     } catch (err) {

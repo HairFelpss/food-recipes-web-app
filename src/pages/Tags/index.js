@@ -61,7 +61,11 @@ const Tag = () => {
   const handleSubmit = async (data) => {
     const photo = await savePhoto()
     data.photo_id = photo
-    await api.post('/types', data)
+    const response = await api.post('/types', data)
+
+    if (response.data) {
+      loadTags()
+    }
     try {
     } catch (err) {
     }
