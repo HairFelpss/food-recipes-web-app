@@ -64,7 +64,7 @@ const CreateRecipes = () => {
       }
       //notification: something is wrong with the recipe data
     } catch (err) {
-      console.log(err)
+      console.log('catch => ', err.response)
     }
   }
 

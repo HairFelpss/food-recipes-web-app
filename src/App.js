@@ -18,7 +18,7 @@ export default function App() {
       <PersistGate persistor={persistor}>
         <Router history={history}>
           <Routes />
-          <ToastContainer autoClose={10000} />
+          <ToastContainer autoClose={5000} />
         </Router>
       </PersistGate>
     </Provider >
