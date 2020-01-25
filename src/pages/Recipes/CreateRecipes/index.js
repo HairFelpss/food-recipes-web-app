@@ -10,7 +10,7 @@ const addRecipeInputs = [
   { id: 1, name: 'introduction', placeholder: 'Uma breve intrudoção' },
   { id: 2, name: 'steps', placeholder: 'Diga os passos da receita separados por ";"' },
   { id: 3, name: 'ingredients', placeholder: 'Liste os ingredientes da receita separados por ";"' },
-  { id: 4, name: 'preparation_time', placeholder: 'Qual de preparo da receita' },
+  { id: 4, name: 'preparation_time', placeholder: 'Qual de tempo de preparo da receita' },
   { id: 5, name: 'qt_yield', placeholder: 'Quantas porções a receita renderá' },
 ]
 

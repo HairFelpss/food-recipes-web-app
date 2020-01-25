@@ -76,7 +76,7 @@ export default function RecipeReviewCard({ props }) {
     setExpanded(!expanded);
   };
 
-  const handleOpen = (actions) => {
+  const handleOpen = () => {
     setOpen(true);
   };
 
@@ -137,19 +137,23 @@ export default function RecipeReviewCard({ props }) {
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <Typography paragraph color="textSecondary">Como fazer:</Typography>
+            <Typography paragraph color="textSecondary">Ingredientes:</Typography>
             <Typography paragraph color="textSecondary">
               {props.ingredients}
             </Typography>
+            <Typography paragraph color="textSecondary">Como fazer:</Typography>
             <Typography paragraph color="textSecondary">
               {props.steps}
             </Typography>
+            <Typography paragraph color="textSecondary">Tempo de preparo:</Typography>
             <Typography paragraph color="textSecondary">
               {props.preparation_time}
             </Typography>
+            <Typography paragraph color="textSecondary">Quantidade de porções:</Typography>
             <Typography color="textSecondary">
               {props.qt_yield}
             </Typography>
+            <Typography paragraph color="textSecondary">Dificuldade:</Typography>
             <Typography color="textSecondary">
               {props.difficulty}
             </Typography>
