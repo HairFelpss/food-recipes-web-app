@@ -3,12 +3,12 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
 const selectStyles = {
-  menu: (provided, state) => ({
+  menu: provided => ({
     ...provided,
     width: '25vw',
     backgroundColor: '#25262A',
     color: '#2B7A78',
-    padding: 10,
+    padding: 10
   }),
 
   control: () => ({
@@ -21,33 +21,28 @@ const selectStyles = {
     const color = 'color #DEF2F1';
     return { ...provided, opacity, transition, color };
   },
-  multiValue: (styles) => {
+  multiValue: styles => {
     return {
       ...styles,
-      backgroundColor: '#25262A',
+      backgroundColor: '#25262A'
     };
   },
-  multiValueLabel: (styles) => ({
+  multiValueLabel: styles => ({
     ...styles,
-    color: '#DEF2F1',
+    color: '#DEF2F1'
   }),
   multiValueRemove: (styles, { data }) => ({
     ...styles,
     color: '#E1315B',
     ':hover': {
       backgroundColor: data.color,
-      color: 'white',
-    },
-  }),
+      color: 'white'
+    }
+  })
 };
 
-const SelectField = (
-  {
-    single,
-    options,
-    handleOnChange
-  }) => {
-  const animatedComponents = makeAnimated()
+const SelectField = ({ single, options, handleOnChange }) => {
+  const animatedComponents = makeAnimated();
 
   if (single) {
     return (
@@ -59,7 +54,7 @@ const SelectField = (
         onChange={handleOnChange}
         autoFocus={true}
       />
-    )
+    );
   }
   return (
     <Select
@@ -72,6 +67,6 @@ const SelectField = (
       styles={selectStyles}
       isSearchable
     />
-  )
-}
-export default SelectField
+  );
+};
+export default SelectField;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,29 +7,28 @@ import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import { Form, Input } from "@rocketseat/unform";
-import drawerBgImage from "../../Images/bg.jpg";
-
+import { Form, Input } from '@rocketseat/unform';
+import drawerBgImage from '~/Assets/bg.jpg';
 
 const useStyles = makeStyles(theme => ({
   fab: {
     position: 'absolute',
     bottom: theme.spacing(2),
-    right: theme.spacing(2),
+    right: theme.spacing(2)
   },
   modal: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   paper: {
     backgroundColor: theme.palette.background.default,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+    padding: theme.spacing(2, 4, 3)
   },
   title: {
-    textAlign: 'center',
+    textAlign: 'center'
   },
   input: {
     width: '100%',
@@ -40,17 +39,17 @@ const useStyles = makeStyles(theme => ({
     outline: 'none',
     textAlign: 'center',
     color: theme.palette.success.dark,
-    backgroundColor: 'transparent',
+    backgroundColor: 'transparent'
   },
   selectBtn: {
-    backgroundImage: "url(" + drawerBgImage + ")",
+    backgroundImage: 'url(' + drawerBgImage + ')',
     width: '100%',
     padding: '0.5vh',
     marginBottom: '0.5vh',
-    opacity: 0.7,
+    opacity: 0.7
   },
   fileBtn: {
-    backgroundImage: "url(" + drawerBgImage + ")",
+    backgroundImage: 'url(' + drawerBgImage + ')',
     color: theme.palette.text.secondary,
     fontWeight: 800,
     opacity: 0.7,
@@ -60,21 +59,16 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 10,
     fontSize: '1.5vh',
     marginBottom: '1vh',
-    width: '100%',
-  },
+    width: '100%'
+  }
 }));
 
 const AddFab = ({ destiny, handleSubmit, handleChange }) => {
-  const classes = useStyles()
+  const classes = useStyles();
   const [open, setOpen] = useState(false);
 
-  const handleOpen = () => {
-
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
+  const handleOpenClose = () => {
+    setOpen(!open);
   };
 
   if (!destiny) {
@@ -84,12 +78,12 @@ const AddFab = ({ destiny, handleSubmit, handleChange }) => {
           color="primary"
           aria-label="add"
           className={classes.fab}
-          onClick={handleOpen}
+          onClick={handleOpenClose}
         >
           <AddIcon />
         </Fab>
       </Link>
-    )
+    );
   }
   return (
     <>
@@ -97,7 +91,7 @@ const AddFab = ({ destiny, handleSubmit, handleChange }) => {
         color="primary"
         aria-label="add"
         className={classes.fab}
-        onClick={handleOpen}
+        onClick={handleOpenClose}
       >
         <AddIcon />
       </Fab>
@@ -106,11 +100,11 @@ const AddFab = ({ destiny, handleSubmit, handleChange }) => {
         aria-describedby="transition-modal-description"
         className={classes.modal}
         open={open}
-        onClose={handleClose}
+        onClose={handleOpenClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
-          timeout: 500,
+          timeout: 500
         }}
       >
         <Fade in={open}>
@@ -121,30 +115,30 @@ const AddFab = ({ destiny, handleSubmit, handleChange }) => {
                 className={classes.input}
                 name="name"
                 placeholder="Digite o novo nome"
-                autoComplete='off'
+                autoComplete="off"
               />
               <input
-                type='file'
-                name='photo'
+                type="file"
+                name="photo"
                 className={classes.fileBtn}
                 onChange={handleChange}
-                accept='image/*'
+                accept="image/*"
               />
               <Button
                 fullWidth
                 variant="contained"
                 color="primary"
                 type="submit"
-                onClick={handleClose}
+                onClick={handleOpenClose}
               >
                 Criar
-            </Button>
+              </Button>
             </Form>
           </div>
         </Fade>
       </Modal>
     </>
   );
-}
+};
 
 export default AddFab;

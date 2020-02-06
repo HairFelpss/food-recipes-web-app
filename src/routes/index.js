@@ -1,19 +1,19 @@
-import React from "react";
-import { Switch } from "react-router-dom";
+import React from 'react';
+import { Switch } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/core/styles';
-import CssBaseline from "@material-ui/core/CssBaseline";
+import CssBaseline from '@material-ui/core/CssBaseline';
 
-import Route from "./Route";
-import theme from "../Styles/index";
+import Route from './Route';
+import theme from '~/Styles/index';
 
-import Home from "../pages/Home";
-import Dashboard from "../pages/Dashboard";
-import Login from "../pages/Login";
-import Profile from "../pages/Profile";
-import CreateRecipes from "../pages/Recipes/CreateRecipes";
-import EditRecipes from "../pages/Recipes/EditRecipes";
-import ListRecipes from "../pages/Recipes";
-import Tags from '../pages/Tags';
+import Home from '~/pages/Home';
+import Dashboard from '~/pages/Dashboard';
+import Login from '~/pages/Login';
+import Profile from '~/pages/Profile';
+import CreateRecipes from '~/pages/Recipes/CreateRecipes';
+import EditRecipes from '~/pages/Recipes/EditRecipes';
+import ListRecipes from '~/pages/Recipes';
+import Tags from '~/pages/Tags';
 
 export default function Routes() {
   return (

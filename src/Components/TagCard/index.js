@@ -8,30 +8,30 @@ import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import { Form, Input } from "@rocketseat/unform";
-import api from '../../services/api';
+import { Form, Input } from '@rocketseat/unform';
+import api from '~/services/api';
 
 const useStyles = makeStyles(theme => ({
   modal: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   paper: {
     backgroundColor: theme.palette.background.default,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+    padding: theme.spacing(2, 4, 3)
   },
   card: {
     flex: 1,
-    maxWidth: 330,
+    maxWidth: 330
   },
   btn: {
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
   },
   title: {
-    color: theme.palette.quinary,
+    color: theme.palette.quinary
   },
   danger: {
     color: '#E1315B'
@@ -45,9 +45,9 @@ const useStyles = makeStyles(theme => ({
     outline: 'none',
     textAlign: 'center',
     color: theme.palette.success.dark,
-    backgroundColor: 'transparent',
-  },
-}))
+    backgroundColor: 'transparent'
+  }
+}));
 
 export default function TagCard({ props }) {
   const classes = useStyles();
@@ -55,22 +55,22 @@ export default function TagCard({ props }) {
   const [deleteAction, setDeleteAction] = useState(false);
   //const loading = useSelector(state => state.auth.loading)
 
-  const handleOpen = (actions) => {
+  const handleOpen = actions => {
     setOpen(true);
     if (actions === 'delete') {
-      return setDeleteAction(true)
+      return setDeleteAction(true);
     }
-    return setDeleteAction(false)
+    return setDeleteAction(false);
   };
 
   const handleSubmit = async ({ name }) => {
     if (deleteAction) {
-      await api.delete(`/types/${props.id}`)
+      await api.delete(`/types/${props.id}`);
       return setOpen(false);
     }
-    await api.put(`/types/${props.id}`, { name })
+    await api.put(`/types/${props.id}`, { name });
     setOpen(false);
-  }
+  };
 
   const handleClose = () => {
     setOpen(false);
@@ -89,15 +89,23 @@ export default function TagCard({ props }) {
           />
         </CardActionArea>
         <CardActions className={classes.btn}>
-          <Button size="small" color="primary" onClick={() => handleOpen('edit')}>
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => handleOpen('edit')}
+          >
             EDITAR
           </Button>
           <Button size="small" color="primary" className={classes.title}>
             {props.name}
           </Button>
-          <Button size="small" className={classes.danger} onClick={() => handleOpen('delete')}>
+          <Button
+            size="small"
+            className={classes.danger}
+            onClick={() => handleOpen('delete')}
+          >
             EXCLUIR
-        </Button>
+          </Button>
         </CardActions>
       </Card>
       <Modal
@@ -109,14 +117,16 @@ export default function TagCard({ props }) {
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
-          timeout: 500,
+          timeout: 500
         }}
       >
         <Fade in={open}>
           <div className={classes.paper}>
             {deleteAction ? (
               <>
-                <h2 className={classes.danger} id="transition-modal-title">Atenção, você está deletando uma tag!</h2>
+                <h2 className={classes.danger} id="transition-modal-title">
+                  Atenção, você está deletando uma tag!
+                </h2>
                 <Button
                   type="submit"
                   fullWidth
@@ -126,26 +136,26 @@ export default function TagCard({ props }) {
                   onClick={handleSubmit}
                 >
                   Excluir
-              </Button>
+                </Button>
               </>
             ) : (
-                <Form onSubmit={handleSubmit}>
-                  <Input
-                    className={classes.input}
-                    name="name"
-                    placeholder="Digite o novo nome"
-                  />
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                  >
-                    Editar
-                  </Button>
-                </Form>
-              )}
+              <Form onSubmit={handleSubmit}>
+                <Input
+                  className={classes.input}
+                  name="name"
+                  placeholder="Digite o novo nome"
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                >
+                  Editar
+                </Button>
+              </Form>
+            )}
           </div>
         </Fade>
       </Modal>

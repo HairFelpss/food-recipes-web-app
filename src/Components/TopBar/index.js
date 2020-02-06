@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -14,63 +14,63 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import { Link } from "react-router-dom";
-import { signOut } from '../../store/modules/auth/actions'
+import { Link } from 'react-router-dom';
+import { signOut } from '~/store/modules/auth/actions';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
   grow: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   appBar: {
     backgroundColor: theme.palette.primary.main,
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
+      duration: theme.transitions.duration.leavingScreen
+    })
   },
   appBarShift: {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
+      duration: theme.transitions.duration.enteringScreen
+    })
   },
   menuBar: {
-    color: '#555',
+    color: '#555'
   },
   menuLogout: {
-    color: theme.palette.danger,
+    color: theme.palette.danger
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(2)
   },
   hide: {
-    display: 'none',
+    display: 'none'
   },
   title: {
-    color: theme.palette.text.primary,
+    color: theme.palette.text.primary
   },
   sectionDesktop: {
     display: 'none',
     [theme.breakpoints.up('md')]: {
-      display: 'flex',
-    },
+      display: 'flex'
+    }
   },
   sectionMobile: {
     display: 'flex',
     [theme.breakpoints.up('md')]: {
-      display: 'none',
-    },
-  },
+      display: 'none'
+    }
+  }
 }));
 
 export default function TopBar({ toggleDrawer, open }) {
   const classes = useStyles();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -78,8 +78,8 @@ export default function TopBar({ toggleDrawer, open }) {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleSignOut = () => {
-    dispatch(signOut())
-  }
+    dispatch(signOut());
+  };
   const handleProfileMenuOpen = event => {
     setAnchorEl(event.currentTarget);
   };
@@ -108,25 +108,15 @@ export default function TopBar({ toggleDrawer, open }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <Link to={'/profile'}>
-        <MenuItem
-          className={classes.menuBar}
-          onClick={handleMenuClose}
-        >
-
+      <Link to="/profile">
+        <MenuItem className={classes.menuBar} onClick={handleMenuClose}>
           Profile
-      </MenuItem>
+        </MenuItem>
       </Link>
-      <MenuItem
-        className={classes.menuBar}
-        onClick={handleMenuClose}
-      >
+      <MenuItem className={classes.menuBar} onClick={handleMenuClose}>
         My account
       </MenuItem>
-      <MenuItem
-        className={classes.menuLogout}
-        onClick={handleSignOut}
-      >
+      <MenuItem className={classes.menuLogout} onClick={handleSignOut}>
         Logout
       </MenuItem>
     </Menu>
@@ -178,7 +168,7 @@ export default function TopBar({ toggleDrawer, open }) {
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
+          [classes.appBarShift]: open
         })}
       >
         <Toolbar>
@@ -187,7 +177,7 @@ export default function TopBar({ toggleDrawer, open }) {
             onClick={toggleDrawer}
             edge="start"
             className={clsx(classes.menuButton, {
-              [classes.hide]: open,
+              [classes.hide]: open
             })}
           >
             <MenuIcon />

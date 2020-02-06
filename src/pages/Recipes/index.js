@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import { Input } from '@rocketseat/unform';
-import WrapperComponent from '../../Components'
-import Recipes from '../../Components/Recipes'
-import Fab from '../../Components/Fab'
-
-import api from '../../services/api'
+import WrapperComponent from '~/Components';
+import Recipes from '~/Components/Recipes';
+import Fab from '~/Components/Fab';
+import { connect, useDispatch } from 'react-redux';
+import api from '~/services/api';
+import { storeRecipesRequest } from '~/store/modules/recipe/actions';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   title: {
-    paddingBottom: '3vh',
+    paddingBottom: '3vh'
   },
   input: {
     width: '50vw',
@@ -24,27 +25,30 @@ const useStyles = makeStyles(theme => ({
     outline: 'none',
     textAlign: 'center',
     color: theme.palette.text.primary,
-    backgroundColor: 'transparent',
-  },
+    backgroundColor: 'transparent'
+  }
 }));
 
-const ListRecipes = () => {
+const ListRecipes = ({ recipes }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   //const loading = useSelector(state => state.auth.loading)
-  const [recipes, setRecipes] = useState([])
 
   const loadRecipes = async () => {
-    const recipesList = await api.get('/recipes')
-    setRecipes(recipesList.data)
-  }
-
-  useEffect(() => { loadRecipes() }, []);
+    const response = await api.get('/recipes');
+    dispatch(storeRecipesRequest(response.data));
+  };
+  useEffect(() => {
+    loadRecipes();
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <WrapperComponent>
       <Grid container className={classes.root} spacing={2}>
         <Grid item xs={12}>
-          <Grid container
+          <Grid
+            container
             direction="column"
             justify="center"
             alignItems="center"
@@ -54,26 +58,29 @@ const ListRecipes = () => {
             <h1>Veja todas as receitas disponíveis para os apps</h1>
             <Input
               className={classes.input}
-              name='name'
-              placeholder='Digite o nome da receita desejada...'
+              name="name"
+              placeholder="Digite o nome da receita desejada..."
               color="primary"
-              autoComplete='off'
+              autoComplete="off"
             />
           </Grid>
           <Grid container justify="center" spacing={3}>
-            {recipes.map(recipe => (
-              <Grid key={recipe.id} item>
-                <Recipes
-                  props={recipe}
-                />
-              </Grid>
-            ))}
+            {recipes &&
+              recipes.length &&
+              recipes.map(recipe => (
+                <Grid key={recipe.id} item>
+                  <Recipes recipe={recipe} dispatch={dispatch} />
+                </Grid>
+              ))}
           </Grid>
         </Grid>
       </Grid>
       <Fab />
     </WrapperComponent>
-  )
+  );
 };
+const mapStateToProps = state => ({
+  recipes: state.recipe.data
+});
 
-export default ListRecipes;
+export default connect(mapStateToProps)(ListRecipes);
